@@ -16,18 +16,13 @@ class _SearchItemState extends State<SearchItem> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: AppColors.lightGrey,
+          color: AppColors.black,
           borderRadius: BorderRadius.all(Radius.circular(70)),
           border: Border.all(color: AppColors.primaryColor, width: 2.5),
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: 15,
-              left: 15,
-              right: 15,
-              bottom: 15,
-            ),
+            padding: const EdgeInsets.all(10),
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(70),
@@ -37,29 +32,40 @@ class _SearchItemState extends State<SearchItem> {
                 child: TextField(
                   controller: controller,
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w400),
+                  cursorColor: AppColors.primaryColor,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.only(
                       left: 40,
-                      top: 15,
+                      top: 13,
                       right: 20,
-                      bottom: 15,
+                      bottom: 10,
                     ),
                     hintText: "Search movies...",
                     hintStyle: TextStyle(
                       fontSize: 16,
                       color: AppColors.lightGrey1,
                     ),
+                    prefix: SizedBox(width: 20),
                     prefixIcon: DecoratedBox(
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
+                        color: AppColors.lightBlack,
                         borderRadius: BorderRadius.all(Radius.circular(70)),
+                        border: Border.all(
+                          color: AppColors.primaryColor,
+                          width: 2.5,
+                        ),
+                        
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(7.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.search, color: AppColors.white),
+                          icon: Icon(
+                            Icons.search,
+                            color: AppColors.primaryColor,
+                            size: 30,
+                          ),
                         ),
                       ),
                     ),

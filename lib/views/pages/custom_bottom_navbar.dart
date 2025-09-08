@@ -11,6 +11,8 @@ class CustomBottomNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
+      stateManagement: false,
+      backgroundColor: AppColors.darkGrey2,
       tabs: [
         PersistentTabConfig(
           screen: SearchPage(),
@@ -18,6 +20,7 @@ class CustomBottomNavbar extends StatelessWidget {
             icon: Icon(Icons.search),
             title: "Search",
             activeForegroundColor: AppColors.primaryColor,
+            textStyle: TextStyle(fontSize: 15),
           ),
         ),
         PersistentTabConfig(
@@ -26,6 +29,7 @@ class CustomBottomNavbar extends StatelessWidget {
             icon: Icon(Icons.bookmark),
             title: "BookMark",
             activeForegroundColor: AppColors.primaryColor,
+            textStyle: TextStyle(fontSize: 15),
           ),
         ),
         PersistentTabConfig(
@@ -34,11 +38,20 @@ class CustomBottomNavbar extends StatelessWidget {
             icon: Icon(Icons.person),
             title: "Profile",
             activeForegroundColor: AppColors.primaryColor,
+            textStyle: TextStyle(fontSize: 15),
           ),
         ),
       ],
-      navBarBuilder: (navBarConfig) =>
-          Style6BottomNavBar(navBarConfig: navBarConfig),
+      navBarBuilder: (navBarConfig) => Style6BottomNavBar(
+        navBarConfig: navBarConfig,
+        navBarDecoration: NavBarDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+          color: AppColors.lightBlack,
+        ),
+      ),
     );
   }
 }

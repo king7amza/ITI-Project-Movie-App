@@ -1,32 +1,33 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:iti_project_movie_app/models/movies_model.dart';
+import 'package:iti_project_movie_app/utils/app_colors.dart';
 
-class MovieCard extends StatefulWidget {
-  const MovieCard({Key? key}) : super(key: key);
+class MovieItemCard extends StatefulWidget {
+  final int movieItemIndex;
+  const MovieItemCard({super.key, required this.movieItemIndex});
 
   @override
-  State<MovieCard> createState() => _MovieCardState();
+  State<MovieItemCard> createState() => _MovieItemCardState();
 }
 
-class _MovieCardState extends State<MovieCard> {
-  bool isBookmarked = false;
-
+class _MovieItemCardState extends State<MovieItemCard> {
   @override
   Widget build(BuildContext context) {
+    final movie = listOfMovies[widget.movieItemIndex];
     return Container(
       margin: const EdgeInsets.all(16.0),
       padding: const EdgeInsets.all(12.0),
-      constraints: const BoxConstraints(
-        minHeight: 120,
-      ),
+      constraints: const BoxConstraints(minHeight: 120),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.lightGrey,
         borderRadius: BorderRadius.circular(12.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey,
-            spreadRadius: 2,
+            color: AppColors.primaryColor,
+            spreadRadius: 5,
             blurRadius: 8,
-            offset: const Offset(0, 2),
+            offset: const Offset(0, 0),
           ),
         ],
       ),
@@ -36,23 +37,33 @@ class _MovieCardState extends State<MovieCard> {
           children: [
             // Movie poster image
             Container(
-              width: 70,
-              height: 105,
+              width: 80,
+              height: 115,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
-                color: Colors.grey[300],
+                color: AppColors.lightGrey,
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  'https://via.placeholder.com/70x105/cccccc/666666?text=12+Angry+Men',
+                child: CachedNetworkImage(
+                  imageUrl: movie.imgUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
+                  placeholder: (context, url) => Center(
+                    child: SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, error, stackTrace) {
                     return Container(
-                      color: Colors.grey[300],
+                      color: AppColors.lightGrey,
                       child: const Icon(
                         Icons.movie,
-                        color: Colors.grey,
+                        color: AppColors.grey,
                         size: 30,
                       ),
                     );
@@ -60,9 +71,7 @@ class _MovieCardState extends State<MovieCard> {
                 ),
               ),
             ),
-
             const SizedBox(width: 16),
-
             // Movie details
             Expanded(
               child: Column(
@@ -70,54 +79,46 @@ class _MovieCardState extends State<MovieCard> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Title
-                  const Text(
-                    '12 Angry Men',
+                  Text(
+                    movie.movieName,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      color: AppColors.lightBlack,
                     ),
                   ),
-
                   const SizedBox(height: 6),
-
                   // Description
                   Text(
-                    'The defense and the prosecution have rested and the jury is filing into the jury...',
+                    movie.description,
                     style: TextStyle(
                       fontSize: 13,
-                      color: Colors.grey[600],
+                      color: AppColors.darkGrey1,
                       height: 1.3,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-
                   const SizedBox(height: 8),
-
                   // Rating
                   Row(
                     children: [
-                      const Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                        size: 18,
-                      ),
+                      const Icon(Icons.star, color: AppColors.gold, size: 18),
                       const SizedBox(width: 4),
-                      const Text(
-                        '8.6',
+                      Text(
+                        movie.rating.toString(),
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: AppColors.lightBlack,
                         ),
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        '(9275)',
+                        movie.numberOfPeopleRated.toString(),
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.grey[600],
+                          color: AppColors.darkGrey1,
                         ),
                       ),
                     ],
@@ -125,19 +126,31 @@ class _MovieCardState extends State<MovieCard> {
                 ],
               ),
             ),
-
             // Bookmark icon
             GestureDetector(
               onTap: () {
                 setState(() {
-                  isBookmarked = !isBookmarked;
+                  final movieIndex = listOfMovies.indexWhere(
+                    (movieItem) => movieItem.id == movie.id,
+                  );
+                  listOfMovies[movieIndex] = movie.copyWith(
+                    isBookMarked: !movie.isBookMarked,
+                  );
                 });
               },
               child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  shape: BoxShape.circle,
+                ),
                 padding: const EdgeInsets.all(8),
                 child: Icon(
-                  isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                  color: isBookmarked ? Colors.black : Colors.black54,
+                  listOfMovies[widget.movieItemIndex].isBookMarked
+                      ? Icons.bookmark
+                      : Icons.bookmark_border,
+                  color: listOfMovies[widget.movieItemIndex].isBookMarked
+                      ? AppColors.primaryColor
+                      : AppColors.lightBlack,
                   size: 24,
                 ),
               ),
