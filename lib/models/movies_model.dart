@@ -14,10 +14,12 @@ class MoviesResponse extends Equatable {
   });
 
   factory MoviesResponse.fromJson(Map<String, dynamic> json) => MoviesResponse(
-    page: (json['page']),
-    results: (json['results']),
-    totalPages: (json['total_pages']),
-    totalResults: (json['total_results']),
+    page: json['page'] as int? ?? 0,
+    results: (json['results'] as List<dynamic>? ?? [])
+        .map((e) => Movie.fromJson(e as Map<String, dynamic>))
+        .toList(),
+    totalPages: json['total_pages'] as int? ?? 0,
+    totalResults: json['total_results'] as int? ?? 0,
   );
 
   Map<String, dynamic> toJson() => {

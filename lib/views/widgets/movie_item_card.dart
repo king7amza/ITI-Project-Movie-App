@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatefulWidget {
-  const MovieCard({Key? key}) : super(key: key);
+  const MovieCard({super.key});
 
   @override
   State<MovieCard> createState() => _MovieCardState();
