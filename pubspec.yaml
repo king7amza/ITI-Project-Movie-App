@@ -9,6 +9,7 @@ environment:
   sdk: ^3.8.1
 
 dependencies:
+  cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   dio: ^5.9.0
   flutter:
@@ -19,10 +20,13 @@ dependencies:
   persistent_bottom_nav_bar_v2: ^6.1.0
 
 dev_dependencies:
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
   hive_generator: ^2.0.1
 
 flutter:
   uses-material-design: true
+
+image:
+  - assets/images/splashScreen.jpg
